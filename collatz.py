@@ -1,18 +1,21 @@
-def addCollatzVariable(n, d):
-    c = (n%2 == 0)*(n//2)+(n%2 == 1)*(n*3+1)
-    if n in d.keys():
-        return d
-    elif c in d.keys():
-        d[n] = [n]+d[c]
-        return d
-    else:
-        return addCollatzVariable(n, addCollatzVariable(c, d))
+class collatz:
+    def __init__(self):
+        self.d = {2: [2,1]}
+
+    def addValue(self, n):
+        c = (n%2 == 0)*(n//2)+(n%2 == 1)*(n*3+1)
+        if not n in self.d.keys():
+            if c in self.d.keys():
+                self.d[n] = [n]+self.d[c]
+            else:
+                self.addValue(c)
+                self.addValue(n)
 
 def genCollatzDict(n):
-    d = {2: [2,1]}
+    c = collatz()
     for i in range(3,n+1):
-        d = addCollatzVariable(i, d)
-    return d
+        c.addValue(i)
+    return c.d
 
 collatzDict = genCollatzDict(10000)
 
